@@ -1,0 +1,29 @@
+# top-level settings (optional)
+fail_fast: false
+
+repos:
+  # Terraform tools collection
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.103.0
+  hooks:
+    - id: terraform_fmt       # auto-format Terraform files
+    - id: terraform_validate  # validate terraform configs
+    - id: terraform_checkov   # security & compliance checks
+  
+  # Basic useful hooks
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-merge-conflict
+
+  # Commit message conventional format
+- repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+  rev: v9.24.0
+  hooks:
+    - id: commitlint
+      stages: [commit-msg]
+      args: ["--edit"]
+      additional_dependencies:
+        - "@commitlint/config-conventional"
