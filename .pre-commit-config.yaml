@@ -4,12 +4,12 @@ fail_fast: false
 repos:
   # Terraform tools collection
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.103.0
+  rev: v1.105.0
   hooks:
     - id: terraform_fmt       # auto-format Terraform files
     - id: terraform_validate  # validate terraform configs
     - id: terraform_checkov   # security & compliance checks
-  
+
   # Basic useful hooks
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
