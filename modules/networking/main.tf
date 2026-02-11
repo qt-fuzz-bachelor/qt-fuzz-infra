@@ -14,7 +14,7 @@ resource "openstack_networking_network_v2" "network" {
 # Allows multiple subnets if needed (e.g., for segregation)
 # ---------------------------------------
 resource "openstack_networking_subnet_v2" "subnet" {
-  for_each = { for s in var.subnets : s.name => s }
+  for_each = { for idx, s in var.subnets : idx => s }
 
   name            = each.value.name
   network_id      = openstack_networking_network_v2.network.id

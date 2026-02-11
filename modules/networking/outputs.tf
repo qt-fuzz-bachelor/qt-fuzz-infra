@@ -14,6 +14,6 @@ output "network_id" {
 # Enables easy lookup of subnets managed by this module
 # ---------------------------------------
 output "subnet_ids" {
-  description = "The IDs of the subnets created in OpenStack, keyed by subnet name."
-  value       = { for key, subnet in openstack_networking_subnet_v2.subnet : key => subnet.id }
+  description = "List of subnet IDs created in OpenStack."
+  value       = [for s in openstack_networking_subnet_v2.subnet : s.id]
 }
