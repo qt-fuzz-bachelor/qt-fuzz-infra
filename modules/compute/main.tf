@@ -9,7 +9,12 @@ resource "openstack_compute_instance_v2" "vm" {
   name        = each.value.name   # VM name from config
   image_name  = each.value.image  # Operating system image name
   flavor_name = each.value.flavor # Instance size/flavor
-  key_pair    = var.keypair_name  # SSH keypair to use for all VMs
+
+  # Apply cloud-init user_data
+  user_data = templatefile("${path.module}/scripts/ssh-access.yml", {
+    public_keys  = var.team_public_keys
+    default_user = each.value.default_user
+  })
 
   network {
     # Attach this VM to a specific Neutron port

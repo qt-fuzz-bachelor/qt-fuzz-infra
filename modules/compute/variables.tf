@@ -1,16 +1,4 @@
 # --------------------------------------------
-# Name of the OpenStack keypair to use for VM access.
-# This keypair will be injected into the instances
-# to allow SSH authentication.
-#
-# Must already exist in the OpenStack project.
-# --------------------------------------------
-variable "keypair_name" {
-  description = "Name of the OpenStack keypair to use"
-  type        = string
-}
-
-# --------------------------------------------
 # Configuration object for a security group rule.
 # Defines traffic rules applied to the VM instances.
 #
@@ -107,4 +95,24 @@ variable "ext_network_name" {
 variable "network_id" {
   description = "ID of network to associate with the VM instance"
   type        = string
+}
+
+# --------------------------------------------
+# List of SSH public keys for team access.
+#
+# These keys will be injected into all deployed VMs,
+# allowing multiple team members to authenticate
+# via SSH without sharing a single private key.
+#
+# Each entry must be a valid SSH public key string
+# (e.g., starting with "ssh-rsa", "ssh-ed25519", etc.).
+#
+# Default is an empty list, meaning no additional
+# keys are added unless provided via tfvars,
+# CLI input, or environment variables.
+# --------------------------------------------
+variable "team_public_keys" {
+  description = "List of SSH public keys for the team to access all VMs"
+  type        = list(string)
+  default     = [] # optional: can leave empty and provide via tfvars or environment
 }
