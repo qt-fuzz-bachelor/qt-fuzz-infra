@@ -1,23 +1,4 @@
 # --------------------------------------------
-# List of names for persistent block storage volumes.
-#
-# Each entry in the list represents one volume that
-# will be created. Names should be unique within
-# the project to avoid conflicts.
-#
-# Example:
-# volume_name = ["volume_1", "volume_2"]
-# --------------------------------------------
-variable "volume_name" {
-  description = "The names assigned to the persistent block storage volumes."
-  type        = list(string)
-  default = [
-    "volume_1",
-    "volume_2"
-  ]
-}
-
-# --------------------------------------------
 # Size of the block storage volume in gigabytes (GB).
 #
 # This determines the allocated storage capacity.
@@ -29,4 +10,22 @@ variable "volume_name" {
 variable "volume_size" {
   description = "The size of the block storage volume in gigabytes (GB)."
   type        = number
+}
+
+# --------------------------------------------
+# List of IDs of VMs that should have volumes attached.
+#
+# Each entry in the list corresponds to a VM instance ID
+# (usually obtained from an `openstack_compute_instance_v2` resource)
+# that will receive one of the persistent block storage volumes.
+#
+# Example:
+# vms_with_volumes_ids = [
+#   "12345678-90ab-cdef-1234-567890abcdef",
+#   "abcdef12-3456-7890-abcd-ef1234567890"
+# ]
+# --------------------------------------------
+variable "vms_with_volumes_ids" {
+  description = ""
+  type        = list(string)
 }
