@@ -29,7 +29,7 @@ resource "openstack_networking_subnet_v2" "subnet" {
 # ---------------------------------------
 resource "openstack_networking_router_v2" "router" {
   name                = var.router_name
-  external_network_id = var.external_network_id
+  external_network_id = var.ext_network_id
 }
 
 # ---------------------------------------

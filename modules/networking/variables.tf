@@ -58,7 +58,7 @@ variable "router_name" {
 # This must be provided by the caller (no default) because it’s
 # environment-specific (unique per OpenStack deployment).
 # --------------------------------------------
-variable "external_network_id" {
+variable "ext_network_id" {
   description = "The external network UUID for router connectivity."
   type        = string
 }
