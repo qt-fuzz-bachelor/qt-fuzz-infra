@@ -1,0 +1,37 @@
+# Name of the external network used for floating IPs
+ext_network_name = "ntnu-internal"
+
+# ID of the external network (UUID)
+ext_network_id = "730cb16e-a460-4a87-8c73-50a2cb2293f9"
+
+# Name of the private network to create
+network_name = "runner_network"
+
+# Name of the router connecting the private network to the external network
+router_name = "runner_router"
+
+# List of subnets for the private network
+# Each subnet must have a unique name and a CIDR block
+subnets = [
+  {
+    name = "runner_subnet",     # Subnet name
+    cidr = "192.168.20.0/24"    # Subnet CIDR
+  }
+]
+
+# VM instance configurations
+# Each object defines a VM to create
+vm_configs = [
+  {
+    name         = "github_runner"                                # VM name
+    image        = "Ubuntu Server 24.04 LTS (Noble Numbat) amd64" # Image name
+    flavor       = "gx3.2c2r"                                     # Compute flavor
+    volume       = false                                          # Attach a volume?
+    default_user = "ubuntu"                                       # Default SSH user
+  }
+]
+
+# List of SSH public keys for team access to all VMs
+team_public_keys = [
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMwVJl/Iel2fsGpw4VZRxYx9NBsWrEljJDubS3IjzkoB wilvang@dhcp-10-22-83-42.wlan.ntnu.no"
+]
