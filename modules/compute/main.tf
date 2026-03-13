@@ -67,6 +67,12 @@ resource "openstack_networking_floatingip_associate_v2" "fip_assoc" {
 
   floating_ip = each.value.address                             # Allocated floating IP
   port_id     = openstack_networking_port_v2.port[each.key].id # Port to attach the IP to
+
+  lifecycle {
+    ignore_changes = [
+      port_id,
+    ]
+  }
 }
 
 # ---------------------------------------
