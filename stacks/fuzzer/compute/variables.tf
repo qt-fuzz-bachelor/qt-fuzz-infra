@@ -61,17 +61,3 @@ variable "team_public_keys" {
   type        = list(string)
   default     = [] # optional: can leave empty and provide via tfvars or environment
 }
-
-# --------------------------------------------
-# Size of the block storage volume in gigabytes (GB).
-#
-# This determines the allocated storage capacity.
-# Must be a positive number.
-#
-# Example:
-# volume_size = 50  # 50 GB
-# --------------------------------------------
-variable "volume_size" {
-  description = "The size of the block storage volume in gigabytes (GB)."
-  type        = number
-}

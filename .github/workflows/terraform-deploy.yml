@@ -22,3 +22,11 @@ jobs:
       env: fuzzer
       component: compute
     secrets: inherit
+
+  fuzzer-storage:
+    needs: fuzzer-compute
+    uses: ./.github/workflows/deploy-component.yml
+    with:
+      env: fuzzer
+      component: storage
+    secrets: inherit
