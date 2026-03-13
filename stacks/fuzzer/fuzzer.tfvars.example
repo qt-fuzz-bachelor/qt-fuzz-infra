@@ -46,7 +46,11 @@ vm_configs = [
 ]
 
 # Size of block storage volumes in GB
-volume_size = 64
+volume_sizes = [
+  64,
+  64,
+  64
+]
 
 # List of SSH public keys for team access to all VMs
 team_public_keys = [

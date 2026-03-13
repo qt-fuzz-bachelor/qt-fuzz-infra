@@ -12,16 +12,3 @@ module "vm" {
   vm_configs       = var.vm_configs
   team_public_keys = var.team_public_keys
 }
-
-# ---------------------------------------
-# Storage Module
-# Creates and attaches persistent block storage volumes
-# to the deployed VM instances
-# ---------------------------------------
-module "volume" {
-  source     = "../../../modules/storage"
-  depends_on = [module.vm]
-
-  volume_size          = var.volume_size
-  vms_with_volumes_ids = module.vm.vms_with_volumes_ids
-}
