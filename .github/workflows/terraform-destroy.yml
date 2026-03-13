@@ -1,0 +1,24 @@
+name: Destroy Fuzzer
+
+permissions:
+  contents: read
+  actions: read
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy-compute:
+    uses: ./.github/workflows/destroy-component.yml
+    with:
+      env: fuzzer
+      component: compute
+    secrets: inherit
+
+  destroy-network:
+    needs: destroy-compute
+    uses: ./.github/workflows/destroy-component.yml
+    with:
+      env: fuzzer
+      component: network
+    secrets: inherit
