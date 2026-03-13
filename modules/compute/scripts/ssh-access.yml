@@ -4,6 +4,6 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     ssh-authorized-keys:
-%{ for key in public_keys }
+%{ for key in public_keys ~}
       - ${key}
-%{ endfor }
+%{ endfor ~}
