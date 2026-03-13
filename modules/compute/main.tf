@@ -38,9 +38,10 @@ resource "openstack_networking_port_v2" "port" {
     subnet_id = var.subnet_ids[0]
   }
 
-  # Apply security group (SSH) on the port instead of the instance itself
+  # Apply security groups on the port instead of the instance itself
   security_group_ids = [
-    openstack_networking_secgroup_v2.ssh.id
+    openstack_networking_secgroup_v2.ssh.id,
+    openstack_networking_secgroup_v2.rdp.id
   ]
 }
 
@@ -90,4 +91,27 @@ resource "openstack_networking_secgroup_rule_v2" "ssh" {
   remote_ip_prefix = var.sg_rule.remote_ip_prefix
   port_range_min   = 22 # SSH port
   port_range_max   = 22
+}
+
+# ---------------------------------------
+# RDP Security Group
+# Defines an OpenStack security group to allow RDP traffic
+# ---------------------------------------
+resource "openstack_networking_secgroup_v2" "rdp" {
+  name = "rdp_sg" # Simple name for the group
+}
+
+# ---------------------------------------
+# RDP Security Group Rule
+# For remote desctop access to Windows Servers
+# ---------------------------------------
+resource "openstack_networking_secgroup_rule_v2" "rdp" {
+  security_group_id = openstack_networking_secgroup_v2.rdp.id
+
+  direction        = var.sg_rule.direction # e.g., "ingress"
+  ethertype        = var.sg_rule.ethertype # e.g., "IPv4"
+  protocol         = var.sg_rule.protocol  # e.g., "tcp"
+  remote_ip_prefix = var.sg_rule.remote_ip_prefix
+  port_range_min   = 3389 # RDP port
+  port_range_max   = 3389
 }
