@@ -5,7 +5,7 @@ on:
 
 jobs:
   destroy-compute:
-    uses: ./.ci/destroy-component.yml
+    uses: ./.ci/destroy-component.yml@dev
     with:
       env: fuzzer
       component: compute
@@ -13,7 +13,7 @@ jobs:
 
   destroy-network:
     needs: destroy-compute
-    uses: ./.ci/destroy-component.yml
+    uses: ./.ci/destroy-component.yml@dev
     with:
       env: fuzzer
       component: network
