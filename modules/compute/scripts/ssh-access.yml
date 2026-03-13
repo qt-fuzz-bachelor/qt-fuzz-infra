@@ -6,4 +6,4 @@ users:
     ssh-authorized-keys:
 %{ for key in public_keys }
       - ${key}
-%{ endfor }
+%{ endfor ~}
