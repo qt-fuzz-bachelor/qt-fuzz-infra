@@ -1,0 +1,20 @@
+name: Destroy Fuzzer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy-compute:
+    uses: ./.ci/destroy-component.yml
+    with:
+      env: fuzzer
+      component: compute
+    secrets: inherit
+
+  destroy-network:
+    needs: destroy-compute
+    uses: ./.ci/destroy-component.yml
+    with:
+      env: fuzzer
+      component: network
+    secrets: inherit
