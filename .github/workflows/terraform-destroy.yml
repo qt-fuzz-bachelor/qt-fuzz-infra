@@ -1,11 +1,15 @@
 name: Destroy Fuzzer
 
+permissions:
+  contents: read
+  actions: read
+
 on:
   workflow_dispatch:
 
 jobs:
   destroy-compute:
-    uses: ./.github/workflows/destroy-component.yml@dev
+    uses: ./.github/workflows/destroy-component.yml
     with:
       env: fuzzer
       component: compute
@@ -13,7 +17,7 @@ jobs:
 
   destroy-network:
     needs: destroy-compute
-    uses: ./.github/workflows/destroy-component.yml@dev
+    uses: ./.github/workflows/destroy-component.yml
     with:
       env: fuzzer
       component: network

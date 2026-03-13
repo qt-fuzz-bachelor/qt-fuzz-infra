@@ -9,7 +9,7 @@ on:
 
 jobs:
   fuzzer-network:
-    uses: ./.github/workflows/deploy-component.yml@dev
+    uses: ./.github/workflows/deploy-component.yml
     with:
       env: fuzzer
       component: network
@@ -17,7 +17,7 @@ jobs:
 
   fuzzer-compute:
     needs: fuzzer-network
-    uses: ./.github/workflows/deploy-component.yml@dev
+    uses: ./.github/workflows/deploy-component.yml
     with:
       env: fuzzer
       component: compute
