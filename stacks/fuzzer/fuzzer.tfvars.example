@@ -25,16 +25,32 @@ vm_configs = [
   {
     name         = "afl_fuzzer"                                    # VM name
     image        = "Ubuntu Server 24.04 LTS (Noble Numbat) amd64"  # Image name
-    flavor       = "sx3.32c64r"                                    # Compute flavor
+    flavor       = "sx3.20c40r"                                    # Compute flavor
     volume       = true                                            # Attach a volume?
     default_user = "ubuntu"                                        # Default SSH user
+  },
+  {
+    name         = "lib_fuzzer"                                    # VM name
+    image        = "Ubuntu Server 24.04 LTS (Noble Numbat) amd64"  # Image name
+    flavor       = "sx3.20c40r"                                    # Compute flavor
+    volume       = true                                            # Attach a volume?
+    default_user = "ubuntu"                                        # Default SSH user
+  },
+  {
+    name         = "winafl_fuzzer"                                 # VM name
+    image        = "Windows Server 2025 Standard [Evaluation]"     # Image name
+    flavor       = "sx3.20c40r"                                    # Compute flavor
+    volume       = true                                            # Attach a volume?
+    default_user = "Default"                                       # Default SSH user
   }
 ]
 
 # Size of block storage volumes in GB
-volume_size = 80
+volume_size = 64
 
 # List of SSH public keys for team access to all VMs
 team_public_keys = [
-  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMwVJl/Iel2fsGpw4VZRxYx9NBsWrEljJDubS3IjzkoB wilvang@dhcp-10-22-83-42.wlan.ntnu.no"
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMwVJl/Iel2fsGpw4VZRxYx9NBsWrEljJDubS3IjzkoB wilvang@dhcp-10-22-83-42.wlan.ntnu.no",
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOhSURQms3valtur7/d1upbos/sKLhkLgyGSL8VPGuP thomasws@stud.ntnu.no",
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAsT8xxMeFrkI0HAeb6XD5bIALoRpSyAN2HHMPIFWLa3 sofiethi@stud.ntnu.no"
 ]
