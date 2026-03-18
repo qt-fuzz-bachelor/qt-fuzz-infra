@@ -6,9 +6,10 @@
 resource "openstack_compute_instance_v2" "vm" {
   for_each = { for idx, vm in var.vm_configs : idx => vm }
 
-  name        = each.value.name   # VM name from config
-  image_name  = each.value.image  # Operating system image name
-  flavor_name = each.value.flavor # Instance size/flavor
+  name        = each.value.name                                   # VM name from config
+  image_name  = each.value.image                                  # Operating system image name
+  flavor_name = each.value.flavor                                 # Instance size/flavor
+  key_pair    = data.openstack_compute_keypair_v2.master_key.name # RSA key (For ssh & windows admin)
 
   # Apply cloud-init user_data
   user_data = templatefile("${path.module}/scripts/ssh-access.yml", {

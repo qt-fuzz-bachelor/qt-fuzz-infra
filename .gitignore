@@ -41,6 +41,9 @@ course materials/module01/secret.txt
 tokenopenrc.sh
 export_gitlab_token.sh
 
+# Ignore local python environments
+.venv
+
 # MacOS specific files
 .DS_Store
 .terraform.lock.hcl

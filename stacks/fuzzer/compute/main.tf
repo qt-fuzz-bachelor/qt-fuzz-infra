@@ -11,4 +11,5 @@ module "vm" {
   ext_network_name = var.ext_network_name
   vm_configs       = var.vm_configs
   team_public_keys = var.team_public_keys
+  master_key_name  = var.master_key_name
 }

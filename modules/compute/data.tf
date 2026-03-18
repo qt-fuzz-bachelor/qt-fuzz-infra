@@ -26,3 +26,18 @@ data "openstack_networking_network_v2" "external" {
 data "openstack_networking_subnet_ids_v2" "external" {
   network_id = data.openstack_networking_network_v2.external.id
 }
+
+# --------------------------------------------
+# Name of the master key used for SSH and to retrieve windows admin account password
+# --------------------------------------------
+variable "master_key_name" {
+  description = "Public key accessible in SkyHiGh to bootstrap VM with"
+  type        = string
+}
+
+# --------------------------------------------
+# Retrieve RSA master key from openstack
+# --------------------------------------------
+data "openstack_compute_keypair_v2" "master_key" {
+  name = var.master_key_name
+}

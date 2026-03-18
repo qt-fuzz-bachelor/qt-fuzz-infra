@@ -61,3 +61,11 @@ variable "team_public_keys" {
   type        = list(string)
   default     = [] # optional: can leave empty and provide via tfvars or environment
 }
+
+# --------------------------------------------
+# Name of the master key used for SSH and to retrieve windows admin account password
+# --------------------------------------------
+variable "master_key_name" {
+  description = "Public key accessible in SkyHiGh to bootstrap VM with"
+  type        = string
+}
