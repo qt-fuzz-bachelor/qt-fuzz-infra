@@ -65,6 +65,11 @@ sudo mount /dev/vdb /mnt/data
 cd /mnt/data
 ```
 
+Set owner to user:
+```bash
+sudo chown -R ubuntu:ubuntu /mnt/data
+```
+
 #### **5. (Optional) Persist after reboot**
 ```bash
 sudo blkid /dev/vdb
