@@ -4,10 +4,10 @@
 # Uses for_each keyed by index for stable addressing
 # ---------------------------------------
 resource "openstack_compute_instance_v2" "linux" {
-  for_each = {
+  for_each = length(var.linux_configs) > 0 ? {
     for idx, vm in var.linux_configs :
     "linux-${idx}" => vm
-  }
+  } : {}
 
   name        = each.value.name   # VM name from config
   image_name  = each.value.image  # Operating system image name
@@ -31,10 +31,10 @@ resource "openstack_compute_instance_v2" "linux" {
 # Uses for_each keyed by index for stable addressing
 # ---------------------------------------
 resource "openstack_compute_instance_v2" "windows" {
-  for_each = {
+  for_each = length(var.windows_configs) > 0 ? {
     for idx, vm in var.windows_configs :
     "windows-${idx}" => vm
-  }
+  } : {}
 
   name        = each.value.name                                   # VM name from config
   image_name  = each.value.image                                  # Operating system image name

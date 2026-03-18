@@ -83,11 +83,10 @@ variable "linux_configs" {
 variable "windows_configs" {
   description = "List of VM configurations."
   type = list(object({
-    name         = string
-    image        = string
-    flavor       = string
-    volume       = bool
-    default_user = string
+    name   = string
+    image  = string
+    flavor = string
+    volume = bool
   }))
 }
 
