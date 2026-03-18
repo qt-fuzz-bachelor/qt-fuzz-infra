@@ -1,15 +1,17 @@
 # ---------------------------------------
-# Compute Instances
-# Creates one OpenStack VM per entry in `var.vm_configs`
+# Linux Instances
+# Creates one OpenStack VM per entry in `var.linux_configs`
 # Uses for_each keyed by index for stable addressing
 # ---------------------------------------
-resource "openstack_compute_instance_v2" "vm" {
-  for_each = { for idx, vm in var.vm_configs : idx => vm }
+resource "openstack_compute_instance_v2" "linux" {
+  for_each = {
+    for idx, vm in var.linux_configs :
+    "linux-${idx}" => vm
+  }
 
-  name        = each.value.name                                   # VM name from config
-  image_name  = each.value.image                                  # Operating system image name
-  flavor_name = each.value.flavor                                 # Instance size/flavor
-  key_pair    = data.openstack_compute_keypair_v2.master_key.name # RSA key (For ssh & windows admin)
+  name        = each.value.name   # VM name from config
+  image_name  = each.value.image  # Operating system image name
+  flavor_name = each.value.flavor # Instance size/flavor
 
   # Apply cloud-init user_data
   user_data = templatefile("${path.module}/scripts/ssh-access.yml", {
@@ -24,12 +26,48 @@ resource "openstack_compute_instance_v2" "vm" {
 }
 
 # ---------------------------------------
+# Windows Instances
+# Creates one OpenStack VM per entry in `var.windows_configs`
+# Uses for_each keyed by index for stable addressing
+# ---------------------------------------
+resource "openstack_compute_instance_v2" "windows" {
+  for_each = {
+    for idx, vm in var.windows_configs :
+    "windows-${idx}" => vm
+  }
+
+  name        = each.value.name                                   # VM name from config
+  image_name  = each.value.image                                  # Operating system image name
+  flavor_name = each.value.flavor                                 # Instance size/flavor
+  key_pair    = data.openstack_compute_keypair_v2.master_key.name # RSA key (For ssh & windows admin)
+
+  network {
+    # Attach this VM to a specific Neutron port
+    port = openstack_networking_port_v2.port[each.key].id
+  }
+}
+
+# Combine vms into one list
+locals {
+  all_vm_configs = merge(
+    {
+      for idx, vm in var.linux_configs :
+      "linux-${idx}" => vm
+    },
+    {
+      for idx, vm in var.windows_configs :
+      "windows-${idx}" => vm
+    }
+  )
+}
+
+# ---------------------------------------
 # Networking Ports
 # Creates one Neutron port per VM for fixed IP and security group attachment
 # Separate ports allow fine‑grained control over networking
 # ---------------------------------------
 resource "openstack_networking_port_v2" "port" {
-  for_each = { for idx, vm in var.vm_configs : idx => vm }
+  for_each = local.all_vm_configs
 
   name           = "${each.key}_port" # Port name based on VM name
   network_id     = var.network_id     # Parent network ID
@@ -40,8 +78,9 @@ resource "openstack_networking_port_v2" "port" {
   }
 
   # Apply security groups on the port instead of the instance itself
-  security_group_ids = [
-    openstack_networking_secgroup_v2.ssh.id,
+  security_group_ids = startswith(each.key, "linux-") ? [
+    openstack_networking_secgroup_v2.ssh.id
+    ] : [
     openstack_networking_secgroup_v2.rdp.id
   ]
 }
@@ -52,7 +91,7 @@ resource "openstack_networking_port_v2" "port" {
 # Uses networking floating IPs from the external pool
 # ---------------------------------------
 resource "openstack_networking_floatingip_v2" "public" {
-  for_each = openstack_compute_instance_v2.vm
+  for_each = local.all_vm_configs
 
   pool       = data.openstack_networking_network_v2.external.name   # External network pool
   subnet_ids = data.openstack_networking_subnet_ids_v2.external.ids # External subnets
@@ -64,10 +103,10 @@ resource "openstack_networking_floatingip_v2" "public" {
 # Ensures external accessibility to the VM
 # ---------------------------------------
 resource "openstack_networking_floatingip_associate_v2" "fip_assoc" {
-  for_each = openstack_networking_floatingip_v2.public
+  for_each = local.all_vm_configs
 
-  floating_ip = each.value.address                             # Allocated floating IP
-  port_id     = openstack_networking_port_v2.port[each.key].id # Port to attach the IP to
+  floating_ip = openstack_networking_floatingip_v2.public[each.key].address # Allocated floating IP
+  port_id     = openstack_networking_port_v2.port[each.key].id              # Port to attach the IP to
 
   lifecycle {
     ignore_changes = [
