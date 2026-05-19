@@ -12,9 +12,9 @@
 # ---------------------------------------
 terraform {
   backend "http" {
-    address        = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/runner-vm"
-    lock_address   = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/runner-vm/lock"
-    unlock_address = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/runner-vm/lock"
+    address        = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/fuzzer-volume"
+    lock_address   = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/fuzzer-volume/lock"
+    unlock_address = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/fuzzer-volume/lock"
     lock_method    = "POST"
     unlock_method  = "DELETE"
     retry_wait_min = 5
@@ -30,11 +30,11 @@ terraform {
 # ---------------------------------------
 # Remote Network State
 # Retrieves outputs from a separate Terraform state
-# containing the network resources (network, subnets, etc.)
+# containing the compute resources
 # ---------------------------------------
-data "terraform_remote_state" "network" {
+data "terraform_remote_state" "vm" {
   backend = "http"
   config = {
-    address = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/runner-network"
+    address = "https://gitlab.stud.idi.ntnu.no/api/v4/projects/31272/terraform/state/fuzzer-vm"
   }
 }

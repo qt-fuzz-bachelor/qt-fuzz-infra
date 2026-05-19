@@ -48,7 +48,7 @@ variable "sg_rule" {
 #   }
 # ]
 # --------------------------------------------
-variable "vm_configs" {
+variable "linux_configs" {
   description = "List of VM configurations."
   type = list(object({
     name         = string
@@ -56,6 +56,37 @@ variable "vm_configs" {
     flavor       = string
     volume       = bool
     default_user = string
+  }))
+}
+
+# --------------------------------------------
+# List of VM configurations to deploy.
+# Each VM is defined as an object with:
+#
+# - name:          Instance name
+# - image:         OpenStack image name or ID
+# - flavor:        Compute flavor (CPU/RAM sizing)
+# - volume:        Whether to boot from a volume (true/false)
+# - default_user:  Default SSH user for the image
+#
+# Example:
+# vm_configs = [
+#   {
+#     name         = "vm-1"
+#     image        = "ubuntu-22.04"
+#     flavor       = "m1.small"
+#     volume       = true
+#     default_user = "ubuntu"
+#   }
+# ]
+# --------------------------------------------
+variable "windows_configs" {
+  description = "List of VM configurations."
+  type = list(object({
+    name   = string
+    image  = string
+    flavor = string
+    volume = bool
   }))
 }
 

@@ -3,13 +3,9 @@
 #
 # This determines the allocated storage capacity.
 # Must be a positive number.
-#
-# Example:
-# volume_size = 50  # 50 GB
 # --------------------------------------------
-variable "volume_size" {
-  description = "The size of the block storage volume in gigabytes (GB)."
-  type        = number
+variable "volume_sizes" {
+  type = list(number)
 }
 
 # --------------------------------------------
@@ -26,6 +22,6 @@ variable "volume_size" {
 # ]
 # --------------------------------------------
 variable "vms_with_volumes_ids" {
-  description = ""
+  description = "List of VM IDs that have volumes enabled"
   type        = list(string)
 }
