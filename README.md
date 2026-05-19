@@ -32,6 +32,23 @@ The IaC provisions the following components (exact resources may vary by configu
 
 All resources are managed declaratively and can be recreated from scratch using the same configuration.
 
+### Repository Secrets
+These secrets are available to all workflows in the repository:
+
+- `OS_APPLICATION_CREDENTIAL_ID` – OpenStack application credential ID.
+- `OS_APPLICATION_CREDENTIAL_SECRET` – OpenStack application credential secret.
+- `OS_AUTH_URL` – OpenStack authentication URL.
+- `TF_HTTP_USERNAME` – Username for the Terraform HTTP backend.
+- `TF_HTTP_PASSWORD` – Password for the Terraform HTTP backend.
+- `TFVARS_CONTENT` – Configuration file for infrastructure provisioning.
+
+### Adding Secrets
+Ensure that these secrets are added in GitHub:
+
+1. Go to **Settings → Secrets → Actions**.
+2. Click **New repository secret** (for repository-wide secrets) or **New environment secret** (for environment-specific secrets).
+3. Assign them to the correct environment if applicable.
+
 ## Configure persistent volumes
 
 After creating the infrastructure, you need to mount and (optionally) format the volumes.
